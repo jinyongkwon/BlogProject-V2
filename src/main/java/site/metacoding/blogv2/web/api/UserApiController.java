@@ -28,7 +28,10 @@ public class UserApiController {
     @PostMapping("/api/login")
     public ResponseDto<String> login(@RequestBody LoginDto loginDto) {
         User userEntity = userService.로그인(loginDto);
+        if (userEntity == null) {
+            return new ResponseDto<String>(-1, "로그인 실패", null);
+        }
         httpSession.setAttribute("principal", userEntity);
-        return new ResponseDto<String>(1, "로그인 성공", null);
+        return new ResponseDto<String>(1, "로그인에 성공하였습니다.", null);
     }
 }
