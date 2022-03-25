@@ -3,7 +3,6 @@ package site.metacoding.blogv2.web.api;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,7 @@ import site.metacoding.blogv2.web.api.dto.user.LoginDto;
 @RestController
 public class UserApiController {
     private final UserService userService;
-    private final HttpSession httpSession;
+    private final HttpSession session;
 
     @PostMapping("/api/join")
     public ResponseDto<String> join(@RequestBody JoinDto joinDto) {
@@ -41,7 +40,7 @@ public class UserApiController {
             // ";path=/;HttpOnly=true");
         }
 
-        httpSession.setAttribute("principal", userEntity);
+        session.setAttribute("principal", userEntity);
         return new ResponseDto<String>(1, "로그인에 성공하였습니다.", null);
     }
 }
