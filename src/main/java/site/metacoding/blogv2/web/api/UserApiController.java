@@ -1,7 +1,9 @@
 package site.metacoding.blogv2.web.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +28,19 @@ public class UserApiController {
     }
 
     @PostMapping("/api/login")
-    public ResponseDto<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseDto<String> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         User userEntity = userService.로그인(loginDto);
         if (userEntity == null) {
             return new ResponseDto<String>(-1, "로그인 실패", null);
         }
+
+        // 쿠키 로직
+        if (loginDto.getRemember().equals("on")) {
+            response.addHeader("Set-Cookie", "remember=" + loginDto.getUsername() + ";path=/");
+            // response.addHeader("Set-Cookie", "remember=" + loginDto.getUsername() +
+            // ";path=/;HttpOnly=true");
+        }
+
         httpSession.setAttribute("principal", userEntity);
         return new ResponseDto<String>(1, "로그인에 성공하였습니다.", null);
     }

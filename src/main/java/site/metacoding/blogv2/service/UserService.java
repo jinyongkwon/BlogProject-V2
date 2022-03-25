@@ -23,6 +23,7 @@ public class UserService {
 
     public User 로그인(LoginDto loginDto) {
         User userEntity = userRepository.mLogin(loginDto.getUsername(), loginDto.getPassword());
+        System.out.println(loginDto);
         return userEntity;
     }
 }

@@ -9,6 +9,13 @@
 
   // 2. 기능
 
+  // 유저네임 기억하기 메서드 HttpOnly 속성이 걸려있으면 안됨!! 주의
+  function usernameRemember(){
+    let cookies = document.cookie.split("=")
+    $("#username").val(cookies[1]);
+  }
+  usernameRemember();
+
   // 회원가입 요청 메서드
   let join = async () => {
     // (1) username, password, email ,addr을 찾아서 오브젝트로 만든다
@@ -38,10 +45,16 @@
 
   // 로그인 요청 메서드
   let login = async () => {
+
+    // checkbox의 체크여부를 제이쿼리에서 확인하는 법
+    let checked = $("#remember").is(":checked");
+
     let loginDto = {
       username: $("#username").val(),
       password: $("#password").val(),
+      remember: checked ? "on" : "off"
     }
+    console.log(loginDto);
     let response = await fetch("/api/login", {
       method: "POST",
       headers: {
