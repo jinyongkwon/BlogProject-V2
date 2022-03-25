@@ -3,6 +3,7 @@ package site.metacoding.blogv2.web.api;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,17 +21,25 @@ public class UserApiController {
     private final UserService userService;
     private final HttpSession session;
 
-    @PostMapping("/api/join")
-    public ResponseDto<String> join(@RequestBody JoinDto joinDto) {
-        userService.회원가입(joinDto);
-        return new ResponseDto<String>(1, "회원가입성공", null);
+    // 회원가입 페이지 주세요, 회원가입할께요, 로그인 페이지 주세요, 로그인 할께요
+    // 로그아웃 할께요 => 이런것들은 /api 붙이기 x
+    @GetMapping("/logout")
+    public ResponseDto<?> logout() {
+        session.invalidate();
+        return new ResponseDto<>(1, "성공", null);
     }
 
-    @PostMapping("/api/login")
-    public ResponseDto<String> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+    @PostMapping("/join")
+    public ResponseDto<?> join(@RequestBody JoinDto joinDto) {
+        userService.회원가입(joinDto);
+        return new ResponseDto<>(1, "회원가입성공", null);
+    }
+
+    @PostMapping("/login")
+    public ResponseDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         User userEntity = userService.로그인(loginDto);
         if (userEntity == null) {
-            return new ResponseDto<String>(-1, "로그인 실패", null);
+            return new ResponseDto<>(-1, "로그인 실패", null);
         }
 
         // 쿠키 로직
@@ -41,6 +50,6 @@ public class UserApiController {
         }
 
         session.setAttribute("principal", userEntity);
-        return new ResponseDto<String>(1, "로그인에 성공하였습니다.", null);
+        return new ResponseDto<>(1, "로그인에 성공하였습니다.", null);
     }
 }

@@ -28,7 +28,7 @@
       addr: $("#addr").val(),
     }
     // (2) fetch 요청한다. (json으로 변환해서)
-    let response = await fetch("/api/join", {
+    let response = await fetch("/join", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8"
@@ -57,7 +57,7 @@
       remember: checked ? "on" : "off"
     }
     console.log(loginDto);
-    let response = await fetch("/api/login", {
+    let response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8"
