@@ -7,18 +7,46 @@
     login();
   });
 
- 
+  $("#btn-update").click(() => {
+    update();
+  });
 
   // 2. 기능
 
-  // 유저네임 기억하기 메서드 HttpOnly 속성이 걸려있으면 안됨!! 주의
-  function usernameRemember(){
-    let cookies = document.cookie.split("=")
-    $("#username").val(cookies[1]);
+  // 회원정보 수정 함수
+  let update = async () => {
+    let id = $("#id").val();
+    let updateDto = {
+      password: $("#password").val(),
+      email: $("#email").val(),
+      addr: $("#addr").val()
+    }
+    let response = await fetch(`/s/api/user/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(updateDto)
+    });
+    console.log(response);
+    let responseParse = await response.json();
+    if (responseParse.code == 1) {
+     // alert("업데이트 성공");
+      //location.href = `/s/user/${id}`;
+    } else {
+      alert("업데이트 실패");
+    }
   }
-  usernameRemember();
 
-  // 회원가입 요청 메서드
+  // 유저네임 기억하기 함수 HttpOnly 속성이 걸려있으면 안됨!! 주의
+  function usernameRemember(){
+    let cookie = document.cookie.split("=")
+      $("#username").val(cookie[1]);
+  }
+  
+   usernameRemember();
+
+  // 회원가입 요청 함수
   let join = async () => {
     // (1) username, password, email ,addr을 찾아서 오브젝트로 만든다
     let joinDto = {
@@ -45,7 +73,7 @@
     }
   }
 
-  // 로그인 요청 메서드
+  // 로그인 요청 함수
   let login = async () => {
 
     // checkbox의 체크여부를 제이쿼리에서 확인하는 법

@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,12 +16,28 @@ import site.metacoding.blogv2.service.UserService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
 import site.metacoding.blogv2.web.api.dto.user.JoinDto;
 import site.metacoding.blogv2.web.api.dto.user.LoginDto;
+import site.metacoding.blogv2.web.api.dto.user.UpdateDto;
 
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
     private final UserService userService;
     private final HttpSession session;
+
+    // password, email, addr
+    @PutMapping("/s/api/user/{id}")
+    public ResponseDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
+        System.out.println(updateDto);
+        userService.회원수정(id, updateDto);
+        return new ResponseDto<>(1, "성공", null);
+    }
+
+    // 우리 웹브라우저에서는 현재 사용 안함. 추후 앱에서요청시에사용할 예정
+    @GetMapping("/s/api/user{id}")
+    public ResponseDto<?> userInfo(@PathVariable Integer id) {
+        User userEntity = userService.회원정보(id);
+        return new ResponseDto<>(1, "성공", userEntity);
+    }
 
     // 회원가입 페이지 주세요, 회원가입할께요, 로그인 페이지 주세요, 로그인 할께요
     // 로그아웃 할께요 => 이런것들은 /api 붙이기 x
