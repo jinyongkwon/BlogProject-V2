@@ -41,7 +41,9 @@
   // 유저네임 기억하기 함수 HttpOnly 속성이 걸려있으면 안됨!! 주의
   function usernameRemember(){
     let cookie = document.cookie.split("=")
+    if(cookie[0]=="remember"){
       $("#username").val(cookie[1]);
+    }
   }
   
    usernameRemember();
