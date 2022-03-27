@@ -5,15 +5,14 @@
   <!-- 로그인 폼 시작 -->
   <form>
     <div class="mb-3 mt-3">
-      <input id="username" type="text" class="form-control" placeholder="Enter username" required maxlength="12"
-        value="{{#remember}}{{remember}}{{/remember}}">
+      <input id="username" type="text" class="form-control" placeholder="Enter username" required maxlength="12">
     </div>
     <div class="mb-3">
       <input id="password" type="password" class="form-control" placeholder="Enter password" required maxlength="12">
     </div>
     <div class="form-check mb-3">
       <label class="form-check-label">
-        <input id="remember" class="form-check-input" type="checkbox"> Remember me
+        <input id="remember" class="form-check-input" type="checkbox" checked> Remember me
       </label>
     </div>
     <button id="btn-login" type="button" class="btn btn-primary">로그인</button>

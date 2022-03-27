@@ -11,6 +11,7 @@
     update();
   });
 
+
   // 2. 기능
 
   // 회원정보 수정 함수
@@ -45,8 +46,11 @@
       $("#username").val(cookie[1]);
     }
   }
-  
-   usernameRemember();
+
+  // remember가 체크되있는 곳에서만 유저네임 기억하기 함수 실행
+  if($("#remember").is(":checked") == true){
+    usernameRemember();
+  }
 
   // 회원가입 요청 함수
   let join = async () => {
