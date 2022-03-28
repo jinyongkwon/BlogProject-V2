@@ -28,7 +28,8 @@ public class UserApiController {
     @PutMapping("/s/api/user/{id}")
     public ResponseDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
         System.out.println(updateDto);
-        userService.회원수정(id, updateDto);
+        User userEntity = userService.회원수정(id, updateDto);
+        session.setAttribute("pricipal", userEntity); // 세션 변경하기
         return new ResponseDto<>(1, "성공", null);
     }
 
