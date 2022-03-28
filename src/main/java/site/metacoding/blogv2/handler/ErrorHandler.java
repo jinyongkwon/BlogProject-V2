@@ -1,6 +1,5 @@
 package site.metacoding.blogv2.handler;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

@@ -14,7 +14,7 @@ import site.metacoding.blogv2.config.filter.MyFilter3;
 // Controller, RestController ,Repository, Service, Component, Configuration  == IOC컨테이너에 등록할수있는 어노테이션들
 
 @RequiredArgsConstructor
-@Configuration
+// @Configuration
 public class FilterConfig {
 
     private final HttpSession session;

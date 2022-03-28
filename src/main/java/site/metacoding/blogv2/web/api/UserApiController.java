@@ -27,6 +27,12 @@ public class UserApiController {
     // password, email, addr
     @PutMapping("/s/api/user/{id}")
     public ResponseDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
+        // 세션의 아이디와 {id}를 비교 => 공통적으로 하는것이 아니기 때문에 컨트롤러에서 처리
+        User pricipal = (User) session.getAttribute("principal");
+        if (pricipal.getId() != id) {
+            throw new RuntimeException("권한이 없습니다!!");
+        }
+
         System.out.println(updateDto);
         User userEntity = userService.회원수정(id, updateDto);
         session.setAttribute("pricipal", userEntity); // 세션 변경하기
