@@ -32,8 +32,8 @@
     console.log(response);
     let responseParse = await response.json();
     if (responseParse.code == 1) {
-     // alert("업데이트 성공");
-      //location.href = `/s/user/${id}`;
+      alert("업데이트 성공");
+      location.href = `/s/user/${id}`;
     } else {
       alert("업데이트 실패");
     }
