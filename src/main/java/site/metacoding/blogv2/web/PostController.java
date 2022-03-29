@@ -11,6 +11,12 @@ import site.metacoding.blogv2.service.PostService;
 public class PostController {
     private final PostService postService;
 
+    // 페이지를 줘
+    @GetMapping("/s/post/writeForm")
+    public String wrtieForm() {
+        return "post/writeForm";
+    }
+
     @GetMapping({ "/", "/post" })
     public String home() {
         return "post/list";
