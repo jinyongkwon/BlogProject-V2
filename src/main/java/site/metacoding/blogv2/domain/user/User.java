@@ -36,6 +36,9 @@ public class User {
     @Column(nullable = false, length = 300)
     private String addr; // API 주소 라이브러리 사용할 예정
 
+    @Column(nullable = true, length = 30)
+    private String profileimg; // 이미지 파일 전송 받아서 서버에 두고, 그 경로를 디비에 저장
+
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate
