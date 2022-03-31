@@ -14,6 +14,12 @@ import site.metacoding.blogv2.service.PostService;
 public class PostController {
     private final PostService postService;
 
+    @GetMapping("/post/{id}")
+    public String detail(@PathVariable Integer id, Model model) {
+        model.addAttribute("id", id);
+        return "post/detail";
+    }
+
     // 페이지를 줘
     @GetMapping("/s/post/writeForm")
     public String wrtieForm() {

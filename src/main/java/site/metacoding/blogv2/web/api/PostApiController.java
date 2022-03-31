@@ -25,6 +25,12 @@ public class PostApiController {
     private final PostService postService;
     private final HttpSession session;
 
+    @GetMapping("/api/post/{id}")
+    public ResponseDto<?> detail(@PathVariable Integer id) {
+        Post post = postService.글상세보기(id);
+        return new ResponseDto<>(1, "성공", post);
+    }
+
     @PostMapping("/s/post")
     public ResponseDto<?> write(@RequestBody WriteDto writeDto) {
         User principal = (User) session.getAttribute("principal");

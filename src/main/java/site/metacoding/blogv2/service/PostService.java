@@ -29,6 +29,16 @@ public class PostService {
         return posts;
     }
 
+    public Post 글상세보기(Integer id) {
+        Optional<Post> postOp = postRepository.findById(id);
+        if (postOp.get() != null) {
+            Post postEntity = postOp.get();
+            return postEntity;
+        } else {
+            throw new RuntimeException("게시글을 찾을수 없습니다.");
+        }
+    }
+
     // 그냥 안함
     @Transactional
     public Post 글쓰기(Post post) {
