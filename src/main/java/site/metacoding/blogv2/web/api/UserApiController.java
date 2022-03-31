@@ -40,7 +40,7 @@ public class UserApiController {
     }
 
     // 우리 웹브라우저에서는 현재 사용 안함. 추후 앱에서요청시에사용할 예정
-    @GetMapping("/s/api/user{id}")
+    @GetMapping("/s/api/user/{id}")
     public ResponseDto<?> userInfo(@PathVariable Integer id) {
         User userEntity = userService.회원정보(id);
         return new ResponseDto<>(1, "성공", userEntity);
