@@ -6,13 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.blogv2.domain.post.Post;
+import site.metacoding.blogv2.service.PostService;
 
 @RequiredArgsConstructor
 @Controller
 public class PostController {
 
+    private final PostService postService;
+
     @GetMapping("/post/{id}")
     public String detail(@PathVariable Integer id, Model model) {
+        Post postEntity = postService.글상세보기(id);
+        model.addAttribute("comments", postEntity.getComments());
         model.addAttribute("postId", id);
         return "post/detail";
     }

@@ -2,6 +2,7 @@
 
 <!-- 컨테이너 시작  -->
 <div class="container mt-3">
+  <input type="hidden" id="id">
   <!-- 글쓰기 수정 폼 시작 -->
   <div class="mb-3 mt-3">
     <input type="text" class="form-control" placeholder="Enter title" value="제목입니다">
@@ -15,6 +16,21 @@
   <!-- 글쓰기 수정 폼 끝 -->
 </div>
 <!-- 컨테이너 끝 -->
+<script>
+  $("#btn-update").click(()=>{
+    update();
+  });
+
+let update = async ()=>{
+  let postUpdateDto = {
+    title:$("#title").val(),
+    content:$("#content").val()
+  }
+  let response = await fetch("",{
+    
+  });
+}
+</script>
 
 <script>
   $('#content').summernote({

@@ -37,13 +37,15 @@
                 <b>댓글 리스트</b>
             </div>
             <ul id="reply-box" class="list-group">
-                <li id="reply-1" class="list-group-item d-flex justify-content-between">
-                    <div>댓글입니다</div>
+                {{#comments}}
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>{{content}}</div>
                     <div class="d-flex">
-                        <div class="font-italic">작성자 : 홍길동 &nbsp;</div>
+                        <div class="font-italic">작성자 : {{user.username}} &nbsp;</div>
                         <button class="badge bg-primary">삭제</button>
                     </div>
                 </li>
+                {{/comments}}
             </ul>
         </div>
         <br/>
@@ -58,13 +60,13 @@
             let responseParse = await response.json(); // text(), json()
             console.log(responseParse);
             if (responseParse.code == 1) {
-                postItemRender(responseParse.data);
+                postInfoRender(responseParse.data);
             } else {
                 alert("게시글을 불러오지 못했습니다.");
             }
         }
 
-        function postItemRender(data) {
+        function postInfoRender(data) {
             let username = data.post.user.username;
             let title = data.post.title;
             let content = data.post.content;
