@@ -54,6 +54,7 @@ public class Post {
     @Column(nullable = false)
     private Integer pageCount; // 조회수
 
+    @JsonIgnoreProperties({ "password" })
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;

@@ -1,7 +1,5 @@
 package site.metacoding.blogv2.web.api;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,7 @@ import site.metacoding.blogv2.domain.post.Post;
 import site.metacoding.blogv2.domain.user.User;
 import site.metacoding.blogv2.service.PostService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
+import site.metacoding.blogv2.web.api.dto.post.DetailResponseDto;
 import site.metacoding.blogv2.web.api.dto.post.WriteDto;
 
 @RequiredArgsConstructor
@@ -27,8 +25,16 @@ public class PostApiController {
 
     @GetMapping("/api/post/{id}")
     public ResponseDto<?> detail(@PathVariable Integer id) {
-        Post post = postService.글상세보기(id);
-        return new ResponseDto<>(1, "성공", post);
+        Post postEntity = postService.글상세보기(id);
+        User pricipal = (User) session.getAttribute("principal");
+        boolean auth = false;
+        if (pricipal != null) {
+            if (postEntity.getUser().getId() == pricipal.getId()) {
+                auth = true;
+            }
+        }
+        DetailResponseDto detailResponseDto = new DetailResponseDto(postEntity, auth);
+        return new ResponseDto<>(1, "성공", detailResponseDto);
     }
 
     @PostMapping("/s/post")

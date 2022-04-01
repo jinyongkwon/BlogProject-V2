@@ -1,42 +1,53 @@
 {{>/layout/header}}
 
-<!-- 컨테이너 시작  -->
-<input id="id" type="hidden" value="{{id}}">
-<div class="container mt-3">
-    <!-- 상세정보 보기 시작 -->
-    <div id="post-box"></div>
-    <a href="/s/post/1/updateForm" class="btn btn-primary">수정</a>
-    <button class="btn btn-danger">삭제</button>
-    <!-- 상세정보 보기 끝 -->
-</div>
-<!-- 컨테이너 끝 -->
+<!-- 컨테이너 시작 -->
+<input id="postId" type="hidden" value="{{postId}}">
+    <div class="container mt-3">
+        <!-- 상세정보 보기 시작 -->
+        <div class="mb-3 mt-3">
+            작성자 :
+            <span id="username"></span>
+        </div>
+        <div class="mb-3">
+            <h1 id="title"></h1>
+        </div>
+        <hr/>
+        <div class="mb-3" id="content"></div>
+        <div id="auth-box" style="display: none">
+            <a href="/s/post/1/updateForm" class="btn btn-primary">수정</a>
+            <button class="btn btn-danger">삭제</button>
+        </div>
+        <!-- 상세정보 보기 끝 -->
+    </div>
+    <!-- 컨테이너 끝 -->
 
-<script>
-    let postDetailRender = async () => {
-        let id = $("#id").val();
-        let response = await fetch(`/api/post/${id}`);
-        let responseParse = await response.json();
-        console.log(responseParse);
-        if (responseParse.code == 1) {
-            $("#post-box").append(postItemRender(responseParse.data));
-        } else {
-            alert("게시글을 불러오지 못했습니다.");
+    <script>
+        let postDetailRender = async () => {
+            let postId = $("#postId").val();
+            let response = await fetch(`/api/post/${postId}`);
+            let responseParse = await response.json(); // text(), json()
+            console.log(responseParse);
+            if (responseParse.code == 1) {
+                postItemRender(responseParse.data);
+            } else {
+                alert("게시글을 불러오지 못했습니다.");
+            }
         }
-    }
 
-    function postItemRender(post) {
-        return `   <div class="mb-3 mt-3">
-            작성자 : ${post.user.username}
-        </div>
-        <div class="mb-3">
-            <h1>${post.title}</h1>
-        </div>
-        <hr />
-        <div class="mb-3">
-            ${post.content}
-        </div>`;
-    }
-    postDetailRender();
-</script>
+        function postItemRender(data) {
+            let username = data.post.user.username;
+            let title = data.post.title;
+            let content = data.post.content;
+            let auth = data.auth;
 
-{{>/layout/footer}}
+            $("#username").text(username);
+            $("#title").text(title);
+            $("#content").html(content);
+            if (auth == true) {
+                $("#auth-box").css("display", "block");
+            }
+        }
+        postDetailRender();
+    </script>
+
+    {{>/layout/footer}}
