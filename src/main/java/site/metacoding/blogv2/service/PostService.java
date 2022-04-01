@@ -23,6 +23,11 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    @Transactional
+    public void 글삭제하기(Integer id) {
+        postRepository.deleteById(id);
+    }
+
     public Page<Post> 글목록보기(Integer page) {
         PageRequest pq = PageRequest.of(page, 3, Sort.by(Direction.DESC, "id"));
         Page<Post> posts = postRepository.findAll(pq);
