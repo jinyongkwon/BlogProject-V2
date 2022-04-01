@@ -1,41 +1,58 @@
 {{>/layout/header}}
 
-<!-- 컨테이너 시작  -->
+<!-- 컨테이너 시작 -->
 <div class="container mt-3">
-  <input type="hidden" id="id">
-  <!-- 글쓰기 수정 폼 시작 -->
-  <div class="mb-3 mt-3">
-    <input type="text" class="form-control" placeholder="Enter title" value="제목입니다">
-  </div>
-  <div class="mb-3">
-    <textarea id="content" rows="10" class="form-control">
-      내용입니다
-    </textarea>
-  </div>
-  <button id="btn-update" type="button" class="btn btn-primary">글쓰기 수정완료</button>
-  <!-- 글쓰기 수정 폼 끝 -->
-</div>
-<!-- 컨테이너 끝 -->
-<script>
-  $("#btn-update").click(()=>{
-    update();
-  });
+    <input type="hidden" id="postId" value="{{post.id}}">
+        <!-- 글쓰기 수정 폼 시작 -->
+        <div class="mb-3 mt-3">
+            <input
+                type="text"
+                id="title"
+                class="form-control"
+                placeholder="Enter title"
+                value="{{post.title}}"></div>
+            <div class="mb-3">
+                <textarea id="content" rows="10" class="form-control">
+                    {{post.content}}
+                </textarea>
+            </div>
+            <button id="btn-update" type="button" class="btn btn-primary">글쓰기 수정완료</button>
+            <!-- 글쓰기 수정 폼 끝 -->
+        </div>
+        <!-- 컨테이너 끝 -->
+        <script>
+            $("#btn-update").click(() => {
+                update();
+            });
 
-let update = async ()=>{
-  let postUpdateDto = {
-    title:$("#title").val(),
-    content:$("#content").val()
-  }
-  let response = await fetch("",{
-    
-  });
-}
-</script>
+            let update = async () => {
+                let postId = $("#postId").val();
+                let postUpdateDto = {
+                    title: $("#title").val(),
+                    content: $("#content").val()
+                }
+                let response = await fetch(`/s/api/post/${postId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify(postUpdateDto)
+                });
+                let responseParse = await response.json();
+                console.log(responseParse);
+                if (responseParse.code == 1) {
+                    alert("수정에 성공하였습니다.");
+                    location.href = `/post/${postId}`;
+                } else {
+                    alert("수정에 실패했습니다.");
+                }
+            }
+        </script>
 
-<script>
-  $('#content').summernote({
-    height: 300
-  });
-</script>
+        <script>
+            $('#content').summernote({
+              height: 300
+            });
+        </script>
 
-{{>/layout/footer}}
+        {{>/layout/footer}}

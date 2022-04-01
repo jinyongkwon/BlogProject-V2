@@ -25,6 +25,14 @@ public class PostController {
     private final PostService postService;
     private final HttpSession session;
 
+    @GetMapping("/s/post/{postId}/updateForm")
+    public String updateForm(@PathVariable Integer postId, Model model) {
+        Post postEntity = postService.글상세보기(postId);
+        model.addAttribute("postId", postId);
+        model.addAttribute("post", postEntity);
+        return "post/updateForm";
+    }
+
     @GetMapping("/post/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         Post postEntity = postService.글상세보기(id);
@@ -42,7 +50,6 @@ public class PostController {
             } else {
                 dto.setAuth(false);
             }
-
             comments.add(dto);
         }
         // System.out.println(comments);

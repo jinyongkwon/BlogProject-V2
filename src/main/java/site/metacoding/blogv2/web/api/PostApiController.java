@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import site.metacoding.blogv2.domain.user.User;
 import site.metacoding.blogv2.service.PostService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
 import site.metacoding.blogv2.web.api.dto.post.DetailResponseDto;
+import site.metacoding.blogv2.web.api.dto.post.PostUpdateDto;
 import site.metacoding.blogv2.web.api.dto.post.WriteDto;
 
 @RequiredArgsConstructor
@@ -23,6 +25,12 @@ import site.metacoding.blogv2.web.api.dto.post.WriteDto;
 public class PostApiController {
     private final PostService postService;
     private final HttpSession session;
+
+    @PutMapping("/s/api/post/{postId}")
+    public ResponseDto<?> update(@PathVariable Integer postId, @RequestBody PostUpdateDto postUpdateDto) {
+        Post postEntity = postService.글수정하기(postId, postUpdateDto);
+        return new ResponseDto<>(1, "성공", postEntity);
+    }
 
     @DeleteMapping("/s/api/post/{id}")
     public ResponseDto<?> deleteById(@PathVariable Integer id) {
