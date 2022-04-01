@@ -3,6 +3,7 @@ package site.metacoding.blogv2.domain.post;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -60,7 +61,7 @@ public class Post {
     private User user;
 
     @JsonIgnoreProperties({ "post" }) // messageConverter에게 알려주는 어노테이션 => comment내부에 post는 Json으로 파싱 안해도된다고 알려줌
-    @OneToMany(mappedBy = "post") // 연관관계의 주인의 변수명 => 몇건일지 알수없으니 기본전략이 LAZY
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE) // 연관관계의 주인의 변수명 => 몇건일지 알수없으니 기본전략이 LAZY
     private List<Comment> comments;
 
     @CreatedDate
